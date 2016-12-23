@@ -243,6 +243,29 @@
                 <div class="col-sm-8">
                     <div class="jumbotron">
                         <div ng-show="isSet(1)">
+						     <div class="form-group">
+                                    <label class="control-label col-sm-3" for="pwd">Package</label>
+                                     <div class="col-sm-9">
+                                         <div ng-repeat="creat_pkg in setting_data.create_package" class="col-sm-12" >
+                                         <div class="col-sm-5">
+                                             <input class="form-control" type="text" id="inlineCheckbox1" value="" ng-model="setting_data.create_package[$index].nview " placeholder="view">
+                                           </div>
+                                            <div class="col-sm-5">
+                                                <input class="form-control" type="text" id="inlineCheckbox1" value="" ng-model="setting_data.create_package[$index].price " placeholder="price">
+                                           </div>
+                                           <div class="col-sm-2 ad_minus" ng-if="$index+1 !=setting_data.create_package.length ">
+                                             <a href="javascript:void(0)" ng-click="splice_field($index)">
+                                              <i class="fa fa-minus" aria-hidden="true"></i>
+                                             </a>
+                                         </div>
+                                           <div class="col-sm-2 ad_pls" ng-if="$index+1 ==setting_data.create_package.length ">
+                                             <a href="javascript:void(0)" ng-click="apnd_field()">
+                                              <i class="fa fa-plus" aria-hidden="true"></i>
+                                             </a>
+                                         </div>
+                                       </div>   
+                                  </div>              
+                             </div>
                              <div class="form-group">
                                     <label class="control-label col-sm-3" for="pwd">Placement and Package</label>
                                      <div class="col-sm-9">

@@ -237,10 +237,13 @@ Route::get('admins/create_promotion/get_promotn/{id}', 'Admin\PromotionCreateCon
 Route::get('admins/create_promotion/get_copy_promotn', 'Admin\PromotionCreateController@get_copy_promotn');
 Route::get('admins/create_promotion/get_promo_rec/{id}', 'Admin\PromotionCreateController@get_promo_rec');
 Route::get('admins/create_promotion/get_camp_previw/{id}', 'Admin\PromotionCreateController@get_camp_preview');
+Route::get('admins/create_promotion/change_catpro/{catpro}', 'Admin\PromotionCreateController@change_catpro');
 Route::get('admins/create_promotion/get_promotion/{adtype}', 'Admin\PromotionCreateController@getpromotion');
+Route::get('admins/create_promotion/placement/{placement}', 'Admin\PromotionCreateController@placement');
 Route::get('admins/create_promotion/get_upd_campdata/{id}', 'Admin\PromotionCreateController@get_updcamp_rec');
 Route::post('admins/create_promotion/save_promotion_adtext', 'Admin\PromotionCreateController@save_promotion_adtext');
 Route::post('admins/create_promotion/insert_promotion_adtext', 'Admin\PromotionCreateController@insert_promotion_adtext');
+Route::post('admins/create_promotion/update_adbanr', 'Admin\PromotionCreateController@update_adbanr');
 
 Route::get('admins/promotion_setting', 'Admin\PromotionSettingController@index');
 Route::get('admins/promotion/get_setting/{setting}', 'Admin\PromotionSettingController@get_setting');

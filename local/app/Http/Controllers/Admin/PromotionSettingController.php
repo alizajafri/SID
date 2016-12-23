@@ -99,8 +99,25 @@ class PromotionSettingController extends Controller
             ->where('ad_type', 'banner_ad')           
             ->whereIn('field_name', ['home_top_bot_banner', 'home_right_banner', 'categ_left_bot_banner','prod_left_bot_banner'])     
             ->update(['status' => 0]);
-       
-         //print_r($prom_all);
+      // print_r($prom_all);
+          foreach($prom_all['create_package'] as $key=>$val){
+               $fldval=$val['nview']."-".$val['price'];
+               if( array_key_exists ('id',$val)){
+                 $promotion = Promotion::find($val['id']);
+                 $promotion->ad_type=$val['ad_type'];
+                 $promotion->field_name = $val['field_name'];
+                 $promotion->field_value = $fldval;
+                 $promotion->status = $val['status'];                      
+                 $promotion->save();
+               }else{
+                 $promotion = new Promotion;
+                 $promotion->ad_type='banner_ad';
+                 $promotion->field_name = 'create_package';
+                 $promotion->field_value = $fldval;
+                 $promotion->status = 1;                      
+                 $promotion->save();  
+               }
+           }
           
           foreach($prom_all['prom_all'] as $key=>$val){
               
@@ -260,6 +277,7 @@ class PromotionSettingController extends Controller
                 'placemnt_pkg'=>$placemnt_pakg,
                 'payment_opt'=>$payment_opt
             );
+			//print_r($promot_setting);
             return $promot_setting;
         }
         

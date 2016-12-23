@@ -71,15 +71,15 @@
                       
                   </div>     
             </div>
-            <div class="form-group" ng-if="create_promo.ad_type=='banner_ad'">
+            <div class="form-group" ng-if="create_promo.ad_type=='banner_ad' || create_promo.ad_type=='Banner Ad' ">
                   <label for="exampleInputEmail1" class="col-md-4 col-sm-4">Select Ad Placement </label>
                   <div class="col-md-8 col-sm-8">
-                      <select ng-if="disablesel==false" class="form-control" ng-model="create_promo.ad_placement" ng-change="change_Ad(create_promo.ad_type)">
+                      <select  class="form-control" ng-model="create_promo.ad_placement" ng-change="change_placement(create_promo.ad_placement)">
                         <option value="">Select Ad Placement</option>
-                        <option value="top_banner">Home Page- Top/Bottom Banner</option>
-                        <option value="right_banner">Home Page- Right Box Banner</option>
-						 <option value="categ_lftbotm">Category Page- Left/Bottom Banner</option>
-                        <option value="product_leftbotm">Product Page- Left/Bottom Banner</option>
+                        <option value="home_top_bot_banner">Home Page- Top/Bottom Banner</option>
+                        <option value="home_right_banner">Home Page- Right Box Banner</option>
+						 <option value="categ_left_bot_banner">Category Page- Left/Bottom Banner</option>
+                        <option value="prod_left_bot_banner">Product Page- Left/Bottom Banner</option>
                     </select> 
                       
                   </div>     
@@ -157,7 +157,8 @@
                    </div>
                 </div>
             </div>
-             <%product_name%>
+            <!---<%product_name%>--->
+			<div ng-if="create_promo.ad_type=='text_ad' || create_promo.ad_type=='Text Ad' ">
             <div class="form-group">
                 <label for="exampleInputEmail1" class="col-md-12 col-sm-12">Product to Promote </label>
                   <label for="exampleInputEmail1" class="col-md-4 col-sm-4">Select your Product 
@@ -177,7 +178,7 @@
                       <label  class="col-md-12 col-sm-12">Text Ad also displays in home page by default </label> 
                 </div>    
             </div>
-             <%category_name%>
+            <!-- <%category_name%>-->
              <div class="form-group">
                   <label for="exampleInputEmail1" class="col-md-4 col-sm-4">Select Category
                        <a href="#" data-toggle="tooltip" data-placement="right" title="SID">?</a> 
@@ -211,7 +212,44 @@
                     </div> 
                 </div>    
             </div>
-            
+            </div>
+			<div  ng-if="create_promo.ad_type=='banner_ad' || create_promo.ad_type=='Banner Ad' ">			  
+			      <div class="form-group">
+                <label for="exampleInputEmail1" class="col-md-12 col-sm-12"></label>
+                  <label for="exampleInputEmail1" class="col-md-12 col-sm-12"> Your Store/Category/Product to Promote </label>
+                  <label for="exampleInputEmail1" class="col-md-4 col-sm-4">Select Store/Product/Category 
+                      <a href="#" data-toggle="tooltip" data-placement="right" title="SID">?</a> 
+                  </label>
+                  <div class="col-md-8 col-sm-8">                      
+                      <select class="form-control" ng-model="create_promo.catprosto" ng-change="change_catpro(create_promo.catprosto)">
+                          <option  value="">Please Select</option>
+                          <option value="category">Category</option>
+						  <option value="product">Product </option>
+						  <option value="store">Store</option>
+                      </select>   
+					  <select class="form-control" ng-model="create_promo.val_cps">
+                          <option  value="">Please Select</option>
+                          <option ng-repeat="val in val_cps" ng-value="val.id"><%val.name%></option>
+                      </select>   
+                  </div>     
+            </div>
+			  <div class="form-group">
+                
+                  <label for="exampleInputEmail1" class="col-md-4 col-sm-4"> Upload Banners </label>                 
+                  <div class="col-md-8 col-sm-8">                      
+						<div class="form-group col-xs-12 show-bn">
+                <img ng-mouseleave="display_cross=0" ng-mouseover="display_cross=1" ng-show="create_promo.banner_img" src="{{URL::asset('uploads/promotion_banner')}}/thumb_<% create_promo.banner_img %>" height="300" width="465">  
+                  <span ng-hide="store_data.banner" class="btn btn-primary btn-file">
+					Upload <input type="file" ng-model="store_data.store_banner" onchange="angular.element(this).scope().uploadedBannerFile(this)">
+				</span>
+				<em>Upload a banner for your store.Banner Should be in proper size.</em>
+				<a href="javascript:void(0);" ng-click="delBanner(create_promo.banner_img);display_cross=0" title="Delete" class="bnr-del" ng-mouseleave="display_cross=0" ng-mouseover="display_cross=1" ng-show="display_cross==1"><img src="{{URL::asset('admin/img/del.png')}}"></a>
+				  
+		       <div class="help-block"></div>
+                </div>
+                  </div>     
+            </div>
+			</div>
               <div class="form-group butn">
                   <button type="button" class="btn btn-default" ng-click="step_wizard(1)">Back</button> 
                   <button type="button" class="btn btn-primary" ng-click="save_promotion(create_promo)" >Save Draft</button>                  
