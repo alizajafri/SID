@@ -5569,7 +5569,7 @@ $scope.checkAll = function () {
      $scope.btnenble=false;
      $scope.page='index';
      $scope.faq=false; 
-     
+    
       $scope.disablesel=false;
      $scope.wizard=1;
      $scope.create_promo={};
@@ -5605,7 +5605,7 @@ $scope.checkAll = function () {
             $scope.campinputshow=false;
             $scope.updcampshow=false;
             $scope.copycampshow=false;
-            console.log(camp);
+          //  console.log(camp);
             $scope.create_promo.start_date=$scope.CurrentDate;
             $scope.create_promo.end_date=$scope.CurrentDate;
             $scope.create_promo.add_content ='';   
@@ -5690,7 +5690,10 @@ $scope.checkAll = function () {
                 
              }  
         };
-        
+         $scope.delBanner=function(prom){
+			 $scope.create_promo.banner_img=false;
+			 
+		 }
         $scope.discard=function(){
             $scope.create_promo={}; 
         };
@@ -5699,21 +5702,65 @@ $scope.checkAll = function () {
         $scope.change_Ad=function(adtype){
             $scope.errors=false;               
             $scope.loading = true;
-            console.log(adtype);
+            //console.log(adtype);
             $http.get('create_promotion/get_promotion/'+adtype).
             success(function(data, status, headers, config) {
 			$scope.promot_rec = data;
-			console.log($scope.promot_rec);
+			//console.log($scope.promot_rec);
 		        $scope.loading = false;
 		});
         };
-       
+		 $scope.change_catpro=function(catpro){
+            $scope.errors=false;               
+            $scope.loading = true;           
+            $http.get('create_promotion/change_catpro/'+catpro).
+            success(function(data, status, headers, config) {
+			$scope.val_cps = data;
+			$scope.loading = false;
+		});
+        };
+		 $scope.uploadedBannerFile = function(element) {
+           $scope.$apply(function($scope) {
+           $scope.loading = true;
+           var fd = new FormData();           
+            fd.append("image",element.files[0]);
+			fd.append("folder",'promotion_banner');
+		    fd.append("def",$scope.create_promo.upd_camp);
+            $http.post('create_promotion/update_adbanr', fd, {
+                withCredentials: true,
+                headers: {'Content-Type': undefined },
+                transformRequest: angular.identity
+            }).success( function(data, status, headers, config){ 
+			if(data[0]=='error'){
+				$scope.errors=data[1];
+			}
+			else
+			{
+			   $scope.create_promo.banner_img=data;
+			   console.log($scope.create_promo.banner_img);
+			}
+			});
+
+    });
+   }
+        $scope.change_placement=function(placement){
+            $scope.errors=false;               
+            $scope.loading = true;
+            //console.log(placement);
+            $http.get('create_promotion/placement/'+placement).
+            success(function(data, status, headers, config) {
+						//	 console.log(data.create_package);
+			$scope.promot_rec.create_package = data.create_package;
+			
+		        $scope.loading = false;
+		});
+        };
       
        
        $scope.step_wizard=function(val){
           // console.log(val);
          
-           console.log($scope.create_promo);
+          // console.log($scope.create_promo);
            $scope.wizard=val;           
          
        };
@@ -5730,7 +5777,9 @@ $scope.checkAll = function () {
                         $scope.disablesel=true;
                         if((data.updrec['ad_type'])=='text_ad'){
                             $scope.create_promo.ad_type='Text Ad';
-                        }
+                        }else{
+							$scope.create_promo.ad_type='Banner Ad';
+						}
                        if(act=='cpy'){
                          $scope.create_promo.newcamp=data.updrec['compaign_name'] ; 
                        }
@@ -5740,6 +5789,7 @@ $scope.checkAll = function () {
                        }
                         $scope.promot_rec.create_package=data.create_pakg; 
                         $scope.promot_rec.schedule_status=data.schedule;
+						$scope.create_promo.ad_placement=data.updrec['ad_placement']
                         $scope.camp_selct_data=data.updrec;
                         $scope.create_promo.select_view=data.updrec['view_price'];
                         $scope.create_promo.schedule=data.updrec['schedule'];
@@ -5758,11 +5808,10 @@ $scope.checkAll = function () {
        
        
        $scope.preview=function(prev_id){
-                console.log(prev_id);
+              //  console.log(prev_id);
                  $http.get('create_promotion/get_camp_previw/'+prev_id).                         
-                 success(function(data, status, headers, config) {
-                       
-                         console.log(data);
+                 success(function(data, status, headers, config) {                       
+                      //   console.log(data);
 			$scope.previw_data = data;			
 		        $scope.loading = false;
                        
@@ -5781,7 +5830,7 @@ $scope.checkAll = function () {
 //			$scope.promot_rec = data;
                       $scope.loading = false;
                      if(data[0]=='error'){
-			console.log($scope.create_promo);
+			//console.log($scope.create_promo);
 		        $scope.errors= data[1];
                         $scope.success_flash=false;
                         
@@ -5810,8 +5859,8 @@ $scope.checkAll = function () {
                         }else{
                         $scope.success_flash=data[1];
                         $scope.errors=false;
-			console.log($scope.create_promo);
-		        $scope.loading = false;
+			            console.log($scope.create_promo);
+		                $scope.loading = false;
                         $scope.btnenble=true;
                         $scope.create_promo.id=data[2];
                      } 
@@ -5827,7 +5876,7 @@ $scope.checkAll = function () {
 		success(function(data, status, headers, config) {
                        // console.log(data);
                         $scope.create_promo.id=data.promo_rec['id'];
-			$scope.create_promo.add_content = data.promo_rec['adcontent_title'];   
+			            $scope.create_promo.add_content = data.promo_rec['adcontent_title'];   
                         $scope.create_promo.add_discrip = data.promo_rec['adcontent_discrip']; 
                         $scope.create_promo.product=data.product['id'];
                        // $scope.create_promo.product='12';
